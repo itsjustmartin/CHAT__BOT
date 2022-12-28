@@ -60,34 +60,28 @@ def post_facebook_message(fbid, recevied_message):
 
     done = False
 
-    for text in user_text:
-        if any(word in user_text for word in selectwords.get("hello")) and not done:
-            return_message += str(random.choice(
-                response.objects.filter(category="hello")).mtext)
-            done = True
+    if any(word in user_text for word in selectwords.get("hello")) :
+        return_message += str(random.choice(
+            response.objects.filter(category="hello")).mtext)
+    elif any(word in user_text for word in selectwords.get("what")):
+        return_message += str(random.choice(
+            response.objects.filter(category="what")).mtext)
+    elif any(word in user_text for word in selectwords.get("joke")):
+        return_message += str(random.choice(
+            response.objects.filter(category="joke")).mtext)
+    elif any(word in user_text for word in selectwords.get("human")):
+        return_message += str(random.choice(
+            response.objects.filter(category="human")).mtext)
 
-        elif any(word in user_text for word in selectwords.get("what")) and not done:
-            return_message += str(random.choice(
-                response.objects.filter(category="what")).mtext)
-            done = True
-        elif any(word in user_text for word in selectwords.get("joke")) and not done:
-            return_message += str(random.choice(
-                response.objects.filter(category="joke")).mtext)
-            done = True
-        elif any(word in user_text for word in selectwords.get("human")) and not done:
-            return_message += str(random.choice(
-                response.objects.filter(category="human")).mtext)
-            done = True
-            
-        if any(word in user_text for word in selectwords.get("details")) and not done:
-            msg = str(random.choice(
-                response.objects.filter(category="details")).mtext)
-            send(fbid,msg)   
+    if any(word in user_text for word in selectwords.get("details")):
+        msg = str(random.choice(
+            response.objects.filter(category="details")).mtext)
+        send(fbid,msg)
 
     if not return_message:
         return_message = "this is auto chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
     send(fbid, return_message)
-    
+
 def send(fbid, return_message):
     post_message_url = f'https://graph.facebook.com/v2.6/me/messages?access_token={PAGE_ACCESS_TOKEN}'
     response_msg = json.dumps(
