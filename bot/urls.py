@@ -1,9 +1,8 @@
-from django.urls import include,path
+from django.urls import include, path
 from bot import views
 
 urlpatterns = [
-    path('get',views.botAPI.as_view()),
-    path('test/',views.test),
+    path(r'token',
+         views.botAPI.as_view()),  # r tag is needed
 
-    
 ]
