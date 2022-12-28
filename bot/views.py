@@ -17,8 +17,8 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 
 #  ------------------------ Fill this with your page access token! -------------------------------
-PAGE_ACCESS_TOKEN = "your access  token"
-VERIFY_TOKEN = "your verification token"
+PAGE_ACCESS_TOKEN = "EAAIeu3QZAEuMBAK69fWGI5RssB1GKCqqxtqHm5qPZArRcVHBYMCaeDWY8CrAbALnqW2wtkvFiJWJVed1KqRJejnEQN64JMxu0ppjXh3AVXjhZCjmGifXzxiynlRhB0yYuGpA9ccfGTU8oBOPZBsagjFloKZBKlQJY0NYJw6H4hkdL8kbODDRI9ZBOKe6iWzIrfBL9aKLw3kgZDZD"
+VERIFY_TOKEN = "hithisissecretetokendontshareit451231328"
 
 
 class botAPI(generic.View):
@@ -52,7 +52,7 @@ def post_facebook_message(fbid, recevied_message):
                    "what": ['what', "why", "who"],
                    "joke": ['joke'],
                    "human": ['human', 'robots'],
-                   "details": ['details', 'bot']}
+                   "details": ['details', 'bot','detail']}
 
     user_text = re.sub(r"[^a-zA-Z0-9\s]", ' ',
                        recevied_message).lower().split()
@@ -68,26 +68,26 @@ def post_facebook_message(fbid, recevied_message):
 
         elif any(word in user_text for word in selectwords.get("what")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="what")).mtext + "\n")
+                response.objects.filter(category="what")).mtext)
             done = True
         elif any(word in user_text for word in selectwords.get("joke")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="joke")).mtext + "\n")
+                response.objects.filter(category="joke")).mtext)
             done = True
         elif any(word in user_text for word in selectwords.get("human")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="human")).mtext + "\n")
+                response.objects.filter(category="human")).mtext)
             done = True
-        elif any(word in user_text for word in selectwords.get("details")) and not done:
+            
+        if any(word in user_text for word in selectwords.get("details")) and not done:
             msg = str(random.choice(
-                response.objects.filter(category="human")).mtext + "\n")
-            send(fbid,msg)    
+                response.objects.filter(category="details")).mtext)
+            send(fbid,msg)   
 
     if not return_message:
-        return_message = "Welcome to chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
+        return_message = "this is auto chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
     send(fbid, return_message)
-
-
+    
 def send(fbid, return_message):
     post_message_url = f'https://graph.facebook.com/v2.6/me/messages?access_token={PAGE_ACCESS_TOKEN}'
     response_msg = json.dumps(
