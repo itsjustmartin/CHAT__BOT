@@ -9,12 +9,18 @@ Thanks for checking out this application
 
 
 **- then you generate an access token for your page and add 4 Subscription Fields -**
+
+
 `messages` `messaging_postbacks` `messaging_optins` `messaging_optins` `message_deliveries`
 
 **__ last you need add a webhook link for ur server deployment __**
+
+
 this link should be the end point that recive the hub requests from FB and send the callbacks  
 
 # Dependencies
+
+
 as shown in requirements.txt
 
 **_ you need to update tokens variables to your tokens from facebook-developer site _**
