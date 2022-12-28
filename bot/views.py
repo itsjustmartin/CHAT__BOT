@@ -51,7 +51,8 @@ def post_facebook_message(fbid, recevied_message):
     selectwords = {"hello": ['hello', 'hi', 'hey'],
                    "what": ['what', "why", "who"],
                    "joke": ['joke'],
-                   "human": ['human', 'more details']}
+                   "human": ['human', 'robots'],
+                   "details": ['details', 'bot']}
 
     user_text = re.sub(r"[^a-zA-Z0-9\s]", ' ',
                        recevied_message).lower().split()
@@ -67,19 +68,27 @@ def post_facebook_message(fbid, recevied_message):
 
         elif any(word in user_text for word in selectwords.get("what")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="what")).mtext)
+                response.objects.filter(category="what")).mtext + "\n")
             done = True
         elif any(word in user_text for word in selectwords.get("joke")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="joke")).mtext)
+                response.objects.filter(category="joke")).mtext + "\n")
             done = True
         elif any(word in user_text for word in selectwords.get("human")) and not done:
             return_message += str(random.choice(
-                response.objects.filter(category="human")).mtext)
+                response.objects.filter(category="human")).mtext + "\n")
             done = True
+        elif any(word in user_text for word in selectwords.get("details")) and not done:
+            msg = str(random.choice(
+                response.objects.filter(category="human")).mtext + "\n")
+            send(fbid,msg)    
+
     if not return_message:
         return_message = "Welcome to chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
+    send(fbid, return_message)
 
+
+def send(fbid, return_message):
     post_message_url = f'https://graph.facebook.com/v2.6/me/messages?access_token={PAGE_ACCESS_TOKEN}'
     response_msg = json.dumps(
         {"recipient": {"id": fbid}, "message": {"text": return_message}})
