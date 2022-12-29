@@ -7,6 +7,7 @@ import json
 import random
 import re
 import requests
+import datetime
 
 from .models import response
 
@@ -80,6 +81,16 @@ def post_facebook_message(fbid, recevied_message):
 
     if not return_message:
         return_message = "this is auto chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
+    
+    fn,ln,pic = getSenderInfo(fbid)
+    now = datetime.datetime.now()
+    greatings = ""
+    if now.hour <12 : greatings="Buenos días"
+    elif now.hour > 18 : greatings="Buenas tardes"
+    elif now.hour > 12 : greatings="Buenas tardes"
+
+    return_message = f"{greatings} {fn} , \n{return_message}" 
+
     send(fbid, return_message)
 
 def send(fbid, return_message):
@@ -90,3 +101,15 @@ def send(fbid, return_message):
     status = requests.post(post_message_url, headers={
                            "Content-Type": "application/json"}, data=response_msg)
     print(status.json())
+
+def getSenderInfo(fbid) :
+    user_details_url = "https://graph.facebook.com/v2.6/%s"%fbid
+    user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':f'{PAGE_ACCESS_TOKEN}'}
+    user_details = requests.get(user_details_url, user_details_params).json()
+
+    fn = user_details['first_name']
+    ln = user_details['last_name']
+    pic =user_details['profile_pic']
+
+    return fn ,ln , pic
+
