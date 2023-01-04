@@ -17,10 +17,10 @@ from django.utils.decorators import method_decorator
 
 # Create your views here.
 
-#  ------------------------ Fill this with your page access token! -------------------------------
-PAGE_ACCESS_TOKEN = ""
-VERIFY_TOKEN = ""
 
+#  ------------------------ Fill this with your page access token! -------------------------------
+PAGE_ACCESS_TOKEN = "EAAIeu3QZAEuMBAMd9BoudQZBgZBmUngvHRw2niI0jSiZBbsEtzdVzD4eL9rwLpPVSBiExULUFKB6ItWEOqWbqZApzHpItC9m4mlXwBUZCX1trJO2rhwx4XWYsVqj8CGpZAsROrUPZAJsqCmopORj5xGzNsqwVivmkoZA2xqAVwa6cAfB1r1zCaKxb6Osvl9D1N1GADTpux9k0SQZDZD"
+VERIFY_TOKEN = "thisisrealtoken213321349827837"
 
 class botAPI(generic.View):
     def get(self, request, *args, **kwargs):
@@ -43,23 +43,20 @@ class botAPI(generic.View):
         for entry in fb_message['entry']:
             for message in entry['messaging']:
                 if 'message' in message:
+                    # send(message['sender']['id'], 'return_message')
                     post_facebook_message(
                         message['sender']['id'], message['message']['text'])
+                        
         return HttpResponse('this is post method')
 
 
 def post_facebook_message(fbid, recevied_message):
-    selectwords = { "hello": ['hello', 'hi', 'hey'],
-                    "what": ['what', "why", "who"],
-                    "joke": ['joke'],
-                    "human": ['human', 'robots'],
-                    "details": ['details', 'bot','detail']}
+    # send(fbid, 'yo')
+    selectwords = {"hello": ['hello', 'hi', 'hey'],"what": ['what', "why", "who"],"joke": ['joke','jokes'],"human": ['human', 'robots'],"details": ['details', 'bot', 'detail']}
 
     user_text = re.sub(r"[^a-zA-Z0-9\s]", ' ',
-                       recevied_message).lower().split()
+                      recevied_message).lower().split()
     return_message = ''
-
-    done = False
 
     if any(word in user_text for word in selectwords.get("hello")) :
         return_message += str(random.choice(
@@ -103,7 +100,7 @@ def send(fbid, return_message):
     print(status.json())
 
 def getSenderInfo(fbid) :
-    user_details_url = "https://graph.facebook.com/v2.6/%s"%fbid
+    user_details_url = "https://graph.facebook.com/v2.6/%s" % fbid
     user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':f'{PAGE_ACCESS_TOKEN}'}
     user_details = requests.get(user_details_url, user_details_params).json()
 
@@ -112,4 +109,4 @@ def getSenderInfo(fbid) :
     pic =user_details['profile_pic']
 
     return fn ,ln , pic
-
+    
