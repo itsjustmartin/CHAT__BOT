@@ -83,8 +83,8 @@ def post_facebook_message(fbid, recevied_message):
     now = datetime.datetime.now()
     greatings = ""
     if now.hour <12 : greatings="Buenos días"
-    elif now.hour > 18 : greatings="Buenas tardes"
-    elif now.hour > 12 : greatings="Buenas tardes"
+    elif now.hour > 18 : greatings="Buenas noches"
+    elif now.hour >= 12 : greatings="Buenas tardes"
 
     return_message = f"{greatings} {fn} , \n{return_message}" 
 
