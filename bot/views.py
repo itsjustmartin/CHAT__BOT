@@ -19,8 +19,8 @@ from django.utils.decorators import method_decorator
 
 
 #  ------------------------ Fill this with your page access token! -------------------------------
-PAGE_ACCESS_TOKEN = "EAAIeu3QZAEuMBAMd9BoudQZBgZBmUngvHRw2niI0jSiZBbsEtzdVzD4eL9rwLpPVSBiExULUFKB6ItWEOqWbqZApzHpItC9m4mlXwBUZCX1trJO2rhwx4XWYsVqj8CGpZAsROrUPZAJsqCmopORj5xGzNsqwVivmkoZA2xqAVwa6cAfB1r1zCaKxb6Osvl9D1N1GADTpux9k0SQZDZD"
-VERIFY_TOKEN = "thisisrealtoken213321349827837"
+PAGE_ACCESS_TOKEN = ""
+VERIFY_TOKEN = ""
 
 class botAPI(generic.View):
     def get(self, request, *args, **kwargs):
