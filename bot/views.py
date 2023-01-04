@@ -49,11 +49,11 @@ class botAPI(generic.View):
 
 
 def post_facebook_message(fbid, recevied_message):
-    selectwords = {"hello": ['hello', 'hi', 'hey'],
-                   "what": ['what', "why", "who"],
-                   "joke": ['joke'],
-                   "human": ['human', 'robots'],
-                   "details": ['details', 'bot','detail']}
+    selectwords = { "hello": ['hello', 'hi', 'hey'],
+                    "what": ['what', "why", "who"],
+                    "joke": ['joke'],
+                    "human": ['human', 'robots'],
+                    "details": ['details', 'bot','detail']}
 
     user_text = re.sub(r"[^a-zA-Z0-9\s]", ' ',
                        recevied_message).lower().split()
