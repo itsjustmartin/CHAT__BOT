@@ -12,7 +12,7 @@ from bot import botbase
 
 
 PAGE_ACCESS_TOKEN = ""
-VERIFY_TOKEN = "thisisrealtoken213321349827837"
+VERIFY_TOKEN = ""
 class botAPI(generic.View):
     chatbot = botbase.FbChatBotBase()
     chatbot.linkPage(PAGE_ACCESS_TOKEN,VERIFY_TOKEN)
