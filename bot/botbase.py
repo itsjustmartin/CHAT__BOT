@@ -8,7 +8,7 @@ import datetime
 from .models import response
 
 
-class FbChatBotBase ():
+class FbChatBotBase:
     #  ------------------------ Fill this with your page access token! -------------------------------
     PAGE_ACCESS_TOKEN = ""
     VERIFY_TOKEN = ""
