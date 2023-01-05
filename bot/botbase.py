@@ -12,6 +12,7 @@ class FbChatBotBase:
     #  ------------------------ Fill this with your page access token! -------------------------------
     PAGE_ACCESS_TOKEN = ""
     VERIFY_TOKEN = ""
+    last_msg = ""
 
     def linkPage(self, ptoken, vtoken):
         self.PAGE_ACCESS_TOKEN = ptoken
@@ -30,9 +31,9 @@ class FbChatBotBase:
                 httpreturn = 'Error, invalid token'
         return httpreturn
 
-    def postToChat(self,request):
-        fb_message = json.loads(self.request.body.decode('utf-8'))
-        for entry in fb_message['entry']:
+    def postToChat(self, jasonmsg):
+        self.last_msg = jasonmsg
+        for entry in self.last_msg['entry']:
             for message in entry['messaging']:
                 if 'message' in message:
                     self.post_text_msg(message['sender']['id'],
@@ -41,11 +42,8 @@ class FbChatBotBase:
         return "done"
 
     def post_text_msg(self, fbid, recevied_message):
-        selectwords = {"hello": ['hello', 'hi', 'hey'],
-                       "what": ['what', "why", "who"],
-                       "joke": ['joke'],
-                       "human": ['human', 'robots'],
-                       "details": ['details', 'bot', 'detail']}
+        selectwords = {"hello": ['hello', 'hi', 'hey'], "what": ['what', "why", "who"], "joke": [
+            'joke', 'jokes'], "human": ['human', 'robots'], "details": ['details', 'bot', 'detail']}
 
         user_text = re.sub(r"[^a-zA-Z0-9\s]", ' ',
                            recevied_message).lower().split()
