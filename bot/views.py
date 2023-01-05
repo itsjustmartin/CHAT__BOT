@@ -1,21 +1,26 @@
-from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.http.response import HttpResponse
 
+import json
 
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.utils.decorators import method_decorator
-from bot import botbase
+
 
 # Create your views here.
 
+from .botbase import FbChatBotBase
+#  ------------------------ Fill this with your page access token! -------------------------------
+PAGE_ACCESS_TOKEN = "puther"
+VERIFY_TOKEN = "herand"
 
-PAGE_ACCESS_TOKEN = ""
-VERIFY_TOKEN = ""
+
 class botAPI(generic.View):
-    chatbot = botbase.FbChatBotBase()
-    chatbot.linkPage(PAGE_ACCESS_TOKEN,VERIFY_TOKEN)
+
+    chatbot = FbChatBotBase()
+    chatbot.linkPage(PAGE_ACCESS_TOKEN, VERIFY_TOKEN)
+
     def get(self, request, *args, **kwargs):
         message = self.chatbot.gethubrequest(request)
         return HttpResponse(message)
@@ -25,6 +30,7 @@ class botAPI(generic.View):
         return generic.View.dispatch(self, request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        msg=self.chatbot.postToChat(request)
-        return HttpResponse(msg)
+        fb_message = json.loads(request.body.decode('utf-8'))
+        self.chatbot.postToChat(fb_message)
 
+        return HttpResponse('this is post method')
