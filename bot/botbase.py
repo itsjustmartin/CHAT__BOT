@@ -1,5 +1,4 @@
 import json
-import json
 import random
 import re
 import requests
@@ -13,12 +12,14 @@ class FbChatBotBase:
     PAGE_ACCESS_TOKEN = ""
     VERIFY_TOKEN = ""
     last_msg = ""
+    last_req = None
 
     def linkPage(self, ptoken, vtoken):
         self.PAGE_ACCESS_TOKEN = ptoken
         self.VERIFY_TOKEN = vtoken
 
     def gethubrequest(self, request):
+        self.last_req = request
         mode = request.GET["hub.mode"]
         token = request.GET["hub.verify_token"]
         challenge = request.GET["hub.challenge"]
@@ -30,14 +31,18 @@ class FbChatBotBase:
             else:
                 httpreturn = 'Error, invalid token'
         return httpreturn
+    def checkRequestType(self, request):
+        self.last_req = request
 
     def postToChat(self, jasonmsg):
         self.last_msg = jasonmsg
         for entry in self.last_msg['entry']:
             for message in entry['messaging']:
-                if 'message' in message:
+                if 'message' in message and 'sender' in message:
                     self.post_text_msg(message['sender']['id'],
                                        message['message']['text'])
+
+                    # self.send(message['sender']['id'],str(self.last_msg))
 
         return "done"
 
