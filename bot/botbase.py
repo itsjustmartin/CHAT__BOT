@@ -38,11 +38,10 @@ class FbChatBotBase:
         self.last_msg = jasonmsg
         for entry in self.last_msg['entry']:
             for message in entry['messaging']:
-                if 'message' in message and 'sender' in message:
+                if 'message' in message:
                     self.post_text_msg(message['sender']['id'],
                                        message['message']['text'])
 
-                    # self.send(message['sender']['id'],str(self.last_msg))
 
         return "done"
 
@@ -77,13 +76,14 @@ class FbChatBotBase:
             return_message = "this is auto chat bot messaging .. \n\nPlease make a question or wait for human respond\n\n"
 
         fn, ln, pic = self.getSenderInfo(fbid)
-        now = datetime.datetime.now()
+        # now = datetime.datetime.fromtimestamp(timestamp)
+        now=datetime.datetime.now()
         greatings = ""
         if now.hour < 12:
             greatings = "Buenos días"
         elif now.hour > 18:
-            greatings = "Buenas tardes"
-        elif now.hour > 12:
+            greatings = "Buenas noches"
+        elif now.hour >= 12:
             greatings = "Buenas tardes"
 
         return_message = f"{greatings} {fn} , \n{return_message}"
