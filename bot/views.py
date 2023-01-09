@@ -31,6 +31,7 @@ class botAPI(generic.View):
 
     def post(self, request, *args, **kwargs):
         fb_message = json.loads(request.body.decode('utf-8'))
-        self.chatbot.postToChat(fb_message)
-
         return HttpResponse('this is post method')
+
+def messengerplug(request):
+    return render(request,'bot/messenger.html')

@@ -4,5 +4,6 @@ from bot import views
 urlpatterns = [
     path(r'token',
          views.botAPI.as_view()),  # r tag is needed
+    path('messenger/',views.messengerplug,name="messngerplug")
 
 ]
